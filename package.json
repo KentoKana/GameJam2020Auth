@@ -1,0 +1,29 @@
+{
+    "name": "Game-Jam-2020",
+    "version": "1.0.0",
+    "description": "boilerplate for an express app",
+    "main": "AppInit.js",
+    "dependencies": {
+        "bcrypt": "^3.0.7",
+        "dotenv": "^8.2.0",
+        "ejs": "^3.0.1",
+        "express": "^4.17.1",
+        "express-session": "^1.17.0",
+        "mongodb": "^3.5.2",
+        "nodemon": "^2.0.2"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "develop": "nodemon AppInit.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/KentoKana/express-app-boilerplate.git"
+    },
+    "author": "Kento Kanazawa",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/KentoKana/express-app-boilerplate/issues"
+    },
+    "homepage": "https://github.com/KentoKana/express-app-boilerplate#readme"
+}
