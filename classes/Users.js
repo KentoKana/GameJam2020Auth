@@ -5,6 +5,9 @@ class Users {
     this.dbConn = new DB();
   }
 
+  /**
+   * Get the users collection
+   */
   getUsersCollection = async () => {
     const db = await this.dbConn.connect();
     return await db.collection("users");
@@ -21,14 +24,11 @@ class Users {
   getUser = async ({ username, password }) => {
     try {
       const users = await this.getUsersCollection();
-      users
-        .findOne({
-          username: username,
-          password: password
-        })
-        .then(user => {
-          return user;
-        });
+      const user = await users.findOne({
+        username: username,
+        password: password
+      });
+      return user;
     } catch (error) {
       return console.log(error);
     }
@@ -40,17 +40,13 @@ class Users {
    * @param {string} user.username
    * @returns {Promise} MongoDB user object from users collection
    */
-
   findExistingUsername = async ({ username }) => {
     try {
       const users = await this.getUsersCollection();
-      users
-        .findOne({
-          username: username
-        })
-        .then(user => {
-          return user;
-        });
+      const user = await users.findOne({
+        username: username
+      });
+      return user;
     } catch (error) {
       return console.log(error);
     }

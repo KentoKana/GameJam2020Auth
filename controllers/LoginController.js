@@ -1,6 +1,8 @@
 const express = require("express");
 const DB = require("../models/DB");
 const Users = require("../classes/Users");
+const PassportInitializer = require("../classes/Passport");
+const passport = require("passport");
 
 class LoginController {
   path = "/login";
@@ -14,21 +16,27 @@ class LoginController {
 
   initRoutes = () => {
     this.router.get("/login", this.getLoginRoute);
-    this.router.post("/submit-login", this.onLoginSubmit);
+    this.router.post("/login", this.onLoginSubmit);
   };
 
-  onLoginSubmit = async (req, res) => {
+  onLoginSubmit = async (req, res, next) => {
     const dbConn = new DB();
     try {
-      const user = await this.users.getUser({
-        username: req.body.username,
-        password: req.body.password
+      const user = await this.users.findExistingUsername({
+        username: req.body.username
       });
-      if (user) {
-        res.redirect("/");
-      } else {
-        res.redirect("/login");
-      }
+
+      const initializePassport = new PassportInitializer(
+        passport,
+        user,
+        req.body.password
+      );
+      initializePassport.initialize();
+      passport.authenticate("local", {
+        successRedirect: "/",
+        failureRedirect: "/login",
+        failureFlash: true
+      })(req, res, next);
     } catch (error) {
       return console.log(error);
     } finally {

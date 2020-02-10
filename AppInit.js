@@ -5,6 +5,8 @@ const EshopApp = require("./app.js");
 const bodyParser = require("body-parser");
 const logger = require("./middlewares/logger");
 const session = require("express-session");
+const passport = require("passport");
+const flash = require("express-flash");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -21,11 +23,14 @@ const app = new EshopApp({
   middlewares: [
     bodyParser.json(),
     bodyParser.urlencoded({ extended: true }),
+    flash(),
     session({
       secret: process.env.SESSION_SECRET,
       saveUninitialized: false,
       resave: false
     }),
+    passport.initialize(),
+    passport.session(),
     logger
   ],
   viewEngine: "ejs"

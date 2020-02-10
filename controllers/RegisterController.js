@@ -27,6 +27,7 @@ class RegisterController {
       const retrievedUsername = await this.users.findExistingUsername({
         username: username
       });
+      console.log(retrievedUsername);
 
       if (req.body.form__register_submit && retrievedUsername === null) {
         await this.users.insertUser({
@@ -39,7 +40,7 @@ class RegisterController {
 
       if (retrievedUsername !== null) {
         console.log("username is taken");
-        req.session.message = "That username is taken!";
+        // req.session.message = "That username is taken!";
         res.redirect("/register");
       }
     } catch (error) {
