@@ -2,18 +2,18 @@ const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
 
 class Passport {
-  constructor(passport, getUserByUsername, getPasswordInput) {
+  constructor(passport, userObj, getPasswordInput) {
     this.passport = passport;
-    // this.user = user;
-    this.getUserByUsername = getUserByUsername;
-    // console.log(this.getUserByUsername);
+    this.userObj = userObj;
     this.passwordInput = getPasswordInput;
   }
   initialize = () => {
     const authenticateUser = async (user, password, done) => {
-      user = this.getUserByUsername;
+      user = this.userObj;
       if (user === null) {
-        return done(null, false, { message: "Please enter a valid username and password." });
+        return done(null, false, {
+          message: "Please enter a valid username and password."
+        });
       }
       try {
         await bcrypt.compare(
@@ -23,7 +23,9 @@ class Passport {
             if (result) {
               done(null, user);
             } else {
-              done(error, false, { message: "Please enter a valid username and password." });
+              done(error, false, {
+                message: "Please enter a valid username and password."
+              });
             }
           }
         );
